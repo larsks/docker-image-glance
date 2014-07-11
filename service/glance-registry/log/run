@@ -1,0 +1,5 @@
+#!/bin/sh
+
+mkdir -p /srv/glance/log/glance-registry
+exec svlogd -tt /srv/glance/log/glance-registry/
+
