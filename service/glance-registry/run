@@ -1,5 +1,7 @@
 #!/bin/sh
 
+exec 2>&1
+
 # make sure permissions are correct.
 chown -R glance:glance /srv/glance
 
