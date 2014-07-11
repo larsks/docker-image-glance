@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# make sure permissions are correct.
+chown -R glance:glance /srv/glance
+
+runuser -u glance -g glance -- /usr/bin/glance-manage db sync
+exec runuser -u glance -g glance -- /usr/bin/glance-registry --log-file /srv/glance/glance-registry.log
+

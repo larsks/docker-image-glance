@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# make sure permissions are correct.
+chown -R glance:glance /srv/glance
+
+sv start glance-registry
+exec runuser -u glance -g glance -- /usr/bin/glance-api --log-file /srv/glance/glance-api.log
+
