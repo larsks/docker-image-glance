@@ -1,5 +1,5 @@
 #!/bin/sh
 
 mkdir -p /srv/glance/log/glance-api
-exec svlogd -tt /srv/glance/log/glance-api/
+exec svlogd /srv/glance/log/glance-api/
 
