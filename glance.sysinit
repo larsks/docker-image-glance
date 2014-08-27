@@ -1,0 +1,42 @@
+#!/bin/sh
+
+: ${GLANCE_DB_USER:=glance}
+: ${GLANCE_DB_PASS:=secret}
+: ${GLANCE_DB_NAME:=glance}
+: ${GLANCE_DB_HOST:=mysql}
+: ${GLANCE_KEYSTONE_PASS:=secret}
+
+# make sure permissions are correct.
+chown -R glance:glance /srv/glance
+
+# configure database credentials
+if [ "$GLANCE_DB_URI" ]; then
+	crudini --set /etc/glance/glance-api.conf \
+		database \
+		connection \
+		"$GLANCE_DB_URI"
+	crudini --set /etc/glance/registry-api.conf \
+		database \
+		connection \
+		"$GLANCE_DB_URI"
+else
+	crudini --set /etc/glance/glance-api.conf \
+		database \
+		connection \
+		mysql://${GLANCE_DB_USER}:${GLANCE_DB_PASS}@${GLANCE_DB_HOST}/${GLANCE_DB_NAME}
+	crudini --set /etc/glance/glance-registry.conf \
+		database \
+		connection \
+		mysql://${GLANCE_DB_USER}:${GLANCE_DB_PASS}@${GLANCE_DB_HOST}/${GLANCE_DB_NAME}
+fi
+
+crudini --set /etc/glance/glance-api.conf \
+	keystone_authtoken \
+	admin_password \
+	"$GLANCE_KEYSTONE_PASS"
+crudini --set /etc/glance/registry-api.conf \
+	keystone_authtoken \
+	admin_password \
+	"$GLANCE_KEYSTONE_PASS"
+
+runuser -u glance -g glance -- /usr/bin/glance-manage db sync
