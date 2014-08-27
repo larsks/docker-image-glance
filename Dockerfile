@@ -20,6 +20,7 @@ RUN yum -y install \
 # without actually installing python-glance (because we're going to install
 # that from source).
 RUN yum -y install $(repoquery --requires python-glance | awk '{print $1}')
+RUN useradd -r -d /srv/glance -m glance
 
 # Download and install glance from source.
 WORKDIR /opt
@@ -34,7 +35,8 @@ RUN sh /opt/glance/configure-glance.sh
 
 RUN sed -i '/publicize_image/ s/:.*/: "",/' /etc/glance/policy.json
 
-RUN useradd -r -d /srv/glance -m glance
+ADD glance.sysinit /etc/runit/sysinit/glance
+ADD service /service
 
 VOLUME /srv/glance
 EXPOSE 9292

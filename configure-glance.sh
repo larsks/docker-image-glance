@@ -17,12 +17,6 @@ crudini --set /etc/glance/glance-api.conf \
 	filesystem_store_datadir \
 	/srv/glance/images/
 
-## Database
-crudini --set /etc/glance/glance-api.conf \
-	database \
-	connection \
-	sqlite:////srv/glance/glance.db
-
 ## Message queue
 crudini --set /etc/glance/glance-api.conf \
 	DEFAULT \
@@ -74,12 +68,6 @@ crudini --set /etc/glance/glance-registry.conf \
 	DEFAULT \
 	verbose \
 	true
-
-## Database
-crudini --set /etc/glance/glance-registry.conf \
-	database \
-	connection \
-	sqlite:////srv/glance/glance.db
 
 ##
 ## Configure keystone credentials
