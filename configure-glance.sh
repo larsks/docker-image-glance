@@ -25,7 +25,7 @@ crudini --set /etc/glance/glance-api.conf \
 crudini --set /etc/glance/glance-api.conf \
 	DEFAULT \
 	rabbit_host \
-	amqphost
+	rabbitmq
 
 ##
 ## Configure keystone credentials
