@@ -33,12 +33,13 @@ ADD configure-glance.sh /opt/glance/configure-glance.sh
 RUN sh /opt/glance/install-config.sh
 RUN sh /opt/glance/configure-glance.sh
 
+# allow anyone to mark an image as public.
 RUN sed -i '/publicize_image/ s/:.*/: "",/' /etc/glance/policy.json
 
+# install runit services
 ADD glance.sysinit /etc/runit/sysinit/glance
 ADD service /service
 
 VOLUME /srv/glance
-EXPOSE 9292
-EXPOSE 9191
+EXPOSE 9191 9292
 
